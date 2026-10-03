@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+header {
+width: 100%;
+    min-height: 150px; 
+    background: linear-gradient(135deg,  #dda0dd, #9b59b6); 
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+/* La capsule blanche au centre */
+.header-capsule {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px 40px;
+    border-radius: 100px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+    
+}
+
+header h1 {
+    background: linear-gradient(135deg, #9b59b6, #4a90e2);
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+    border: none;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.menuButton {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: white;
+    width: fit-content;
+    border-radius: 50px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 10px;                
+    z-index: 1000;            
+}
+
+.redirection-button {
+    color: #9b59b6;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.redirection-button:hover {
+    background-color: #9b59b6;
+    color: white;
+    transform: scale(1.05);
+}
+
+.allNews-button, .allInstagramPost-button {
+    padding: 30px;
+    background-color: #9b59b6;
+    color: white;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.allNews-button:hover, .allInstagramPost-button:hover {
+    background-color: #fff;
+    color: #9b59b6;
+    transform: scale(1.2);
+}
+
+
+footer {
+    text-align: center;
+    padding: 40px;
+    background: #2c3e50;
+    color: white;
+    margin-top: 50px;
+}
+
+.game{
+    color:white;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6; 
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.logo-header {
+    transition: all 0.5s ease-in-out;
+}
+
+.menuButton.sticky {
+    background: 
+        radial-gradient(
+        circle 78.25px at 22% 50%,
+        white 75%,
+        transparent 100%),  
+        linear-gradient(to right,       
+        transparent 20%,
+        white 20%),     
+        #9b59b6;
+    background-repeat: no-repeat;    
+    transition: ease-in-out 0.5s;
+}

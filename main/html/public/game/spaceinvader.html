@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Astro Shooter</title>
+    <style>
+        body {
+            margin: 0; background: #050505; color: white;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            height: 100vh; overflow: hidden; font-family: 'Arial', sans-serif;
+        }
+        #game-container { position: relative; }
+        canvas { border: 2px solid #333; background: #000; display: block; }
+        
+        #game-over {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px; border: 2px solid #ff4757;
+            text-align: center;
+            display: none; 
+            border-radius: 10px;
+            box-shadow: 0 0 20px #ff4757;
+        }
+        button {
+            background: #ff4757; border: none; color: white;
+            padding: 10px 20px; font-size: 18px; cursor: pointer;
+            border-radius: 5px; margin-top: 15px;
+        }
+        button:hover { background: #ff6b81; }
+        #hud { position: absolute; top: 10px; left: 10px; font-size: 20px; }
+                
+        a {
+            display: inline-block; 
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #ff4757; 
+            color: white;
+            text-decoration: none; 
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50px; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3); 
+        }
+
+        a:hover {
+            background-color: #ff6b81; 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.5);
+        }
+
+        a:active {
+            transform: translateY(1px); 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="hud">Score: <span id="score">0</span></div>
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="game-over" id="menu">
+            <h2 style="color: #ff4757; margin-top: 0;">TERMINÉ</h2>
+            <p>Score final : <span id="final-score">0</span></p>
+            <button onclick="resetGame()">REJOUER</button>
+        </div>
+    </div>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const gameOverScreen = document.getElementById('game-over');
+    
+    canvas.width = 400; canvas.height = 500;
+
+    let score = 0;
+    let gameActive = true;
+    let projectiles = [];
+    let enemies = [];
+    const player = { x: 185, y: 450, w: 30, h: 30 };
+
+    // Contrôles
+    window.addEventListener('mousemove', (e) => {
+        let rect = canvas.getBoundingClientRect();
+        player.x = e.clientX - rect.left - player.w/2;
+    });
+
+    window.addEventListener('click', () => {
+        if(gameActive) projectiles.push({ x: player.x + 13, y: player.y, w: 4, h: 10 });
+    });
+
+    function spawnEnemy() {
+        if(!gameActive) return;
+        enemies.push({ x: Math.random() * (canvas.width-30), y: -30, w: 30, h: 30 });
+        setTimeout(spawnEnemy, Math.max(300, 1000 - score * 10));
+    }
+
+    function resetGame() {
+        score = 0;
+        projectiles = [];
+        enemies = [];
+        gameActive = true;
+        gameOverScreen.style.display = 'none';
+        document.getElementById('score').innerText = "0";
+        spawnEnemy();
+        update();
+    }
+
+    function update() {
+        if (!gameActive) return;
+
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Joueur
+        ctx.fillStyle = '#00d2ff';
+        ctx.fillRect(player.x, player.y, player.w, player.h);
+
+        // Projectiles
+        projectiles.forEach((p, pi) => {
+            p.y -= 7;
+            ctx.fillStyle = 'yellow';
+            ctx.fillRect(p.x, p.y, p.w, p.h);
+            if(p.y < 0) projectiles.splice(pi, 1);
+        });
+
+        // Ennemis
+        enemies.forEach((e, ei) => {
+            e.y += 2 + (score / 20);
+            ctx.fillStyle = '#ff4757';
+            ctx.fillRect(e.x, e.y, e.w, e.h);
+
+            // Collision avec projectile
+            projectiles.forEach((p, pi) => {
+                if (p.x < e.x + e.w && p.x + p.w > e.x && p.y < e.y + e.h && p.y + p.h > e.y) {
+                    enemies.splice(ei, 1);
+                    projectiles.splice(pi, 1);
+                    score++;
+                    document.getElementById('score').innerText = score;
+                }
+            });
+
+            // Collision avec joueur ou sortie
+            if (e.y > canvas.height || (e.x < player.x + player.w && e.x + e.w > player.x && e.y < player.y + player.h && e.y + e.h > player.y)) {
+                endGame();
+            }
+        });
+
+        requestAnimationFrame(update);
+    }
+
+    function endGame() {
+        gameActive = false;
+        document.getElementById('final-score').innerText = score;
+        gameOverScreen.style.display = 'block';
+    }
+
+    spawnEnemy();
+    update();
+</script>
+    <a href="../index.html"> Il ne s'est rien passé </a>
+</body>
+</html>

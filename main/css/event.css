@@ -1,0 +1,53 @@
+.OnGoingEvent, .PastEvent {
+    max-width: 1000px;
+    margin: 20px auto; 
+    padding: 30px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: none;
+}
+
+h1, h2 {
+    color: #2c3e50;
+    border-bottom: 3px solid plum;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.pastEventsOnly, .onGoingEventsOnly {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+.Event {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: #fafafa;
+    border: 1px solid rgba(221, 160, 221, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Event:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+
+.Event img {
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.OnGoingEvent {
+    border-left: 8px solid lightgreen; 
+}
+
+.PastEvent {
+    border-left: 8px solid grey; 
+}

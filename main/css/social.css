@@ -1,0 +1,50 @@
+
+.social-media-area, .instagram-area {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+    border: 1px solid rgba(221, 160, 221, 0.2); 
+
+}
+
+h1, h2 {
+    color: #2c3e50;
+    border-bottom: 3px solid plum;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.social-media {
+    display: flex;
+    justify-content: space-around;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.social-media a {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.social-media a:hover {
+    transform: translateY(-10px) scale(1.1);
+    filter: drop-shadow(0 10px 15px rgba(155, 89, 182, 0.3));
+}
+
+.social-media img {
+    border-radius: 15px;
+    object-fit: contain;
+}
+
+#instagram-embeds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .social-media { gap: 20px; }
+    .social-media-area { margin: 20px; }
+}

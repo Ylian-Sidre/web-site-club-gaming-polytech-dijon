@@ -1,0 +1,79 @@
+
+.presentation, .all-news, .instagram-area {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+h1, h2 {
+    color: #2c3e50;
+    border-bottom: 3px solid plum;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.news {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.news-display, .instagram-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.all-news, .instagram-area {
+    position: relative; 
+    background: white;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.all-news::before, .instagram-area::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(0deg, rgba(155, 89, 182, 1) 0%, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 1) 100%);
+    opacity: 0; 
+    transition: opacity 0.5s ease-in; 
+    z-index: -1;
+}
+
+.all-news:has(.allNews-button:hover)::before, 
+.instagram-area:has(.allInstagramPost-button:hover)::before {
+    opacity: 1;
+}
+
+
+.inside-news {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: #fafafa;
+    border: 3px solid rgba(221, 160, 221, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+
+.inside-news:hover {
+    transform: translateY(-5px);
+}
+
+.inside-news img {
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+#instagram-embeds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+}

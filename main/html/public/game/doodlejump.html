@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Jump Pro</title>
+    <style>
+        body { margin: 0; background: #111; color: white; display: flex; justify-content: center; flex-direction: column; align-items: center; height: 100vh; overflow: hidden; font-family: sans-serif; }
+        #game-container { position: relative; }
+        canvas { background: #000; border: 4px solid #333; }
+        #menu {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9); padding: 30px; text-align: center;
+            border: 2px solid #00fbff; border-radius: 10px; display: none; width: 200px;
+        }
+        button { background: #00fbff; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        #score-ui { position: absolute; width: 100%; text-align: center; top: 10px; font-size: 30px; font-weight: bold; }
+        a {
+            display: inline-block; 
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #ff4757; 
+            color: white;
+            text-decoration: none;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50px; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+        }
+
+        a:hover {
+            background-color: #ff6b81; 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.5); 
+        }
+
+        a:active {
+            transform: translateY(1px); 
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="score-ui"><span id="currentScore">0</span></div>
+    <canvas id="jumpCanvas"></canvas>
+    
+    <div id="menu">
+        <h2 style="color: #00fbff; margin-top: 0;">CHUTE !</h2>
+        <p>Score : <span id="finalScore">0</span></p>
+        <button onclick="resetGame()">REBONDIR</button>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('jumpCanvas');
+    const ctx = canvas.getContext('2d');
+    const menu = document.getElementById('menu');
+    canvas.width = 350; canvas.height = 500;
+
+    let score, gameActive, platforms, player;
+    const gravity = 0.4;
+
+    function init() {
+        score = 0; gameActive = true;
+        player = { x: 160, y: 250, w: 25, h: 25, vy: 0 };
+        platforms = [];
+        for(let i=0; i<6; i++) {
+            platforms.push({ x: Math.random()*270, y: i*90, color: `hsl(${i*60}, 70%, 50%)` });
+        }
+    }
+
+    canvas.addEventListener('mousemove', (e) => {
+        let rect = canvas.getBoundingClientRect();
+        player.x = e.clientX - rect.left - player.w/2;
+    });
+
+    function resetGame() {
+        menu.style.display = 'none';
+        init(); update();
+    }
+
+    function update() {
+        if (!gameActive) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        player.vy += gravity; player.y += player.vy;
+        ctx.fillStyle = '#00fbff'; ctx.fillRect(player.x, player.y, player.w, player.h);
+
+        platforms.forEach(p => {
+            p.y += 1.5 + (score / 20);
+            ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 70, 12);
+
+            if (player.vy > 0 && player.x < p.x + 70 && player.x + player.w > p.x && player.y + player.h > p.y && player.y + player.h < p.y + 15) {
+                player.vy = -10; score++;
+                document.getElementById('currentScore').innerText = score;
+                p.y = -20; p.x = Math.random()*270;
+            }
+            if (p.y > canvas.height) { p.y = -20; p.x = Math.random()*270; }
+        });
+
+        if (player.y > canvas.height) {
+            gameActive = false;
+            document.getElementById('finalScore').innerText = score;
+            menu.style.display = 'block';
+        }
+        requestAnimationFrame(update);
+    }
+
+    init(); update();
+</script>
+
+    <a href="../index.html"> Il ne s'est rien passé </a>
+</body>
+</html>
